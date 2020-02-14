@@ -3,7 +3,12 @@ const nameInput = document.getElementById('name');
 const otherRole = document.getElementById('other-title');
 const designMenu = document.getElementById('design');
 const colorMenu = document.getElementById('color');
+const activityField = document.querySelector('.activities');
+const checkboxes = document.querySelectorAll('label input');
 
+const totalCostField = document.createElement('h3');
+let totalCost = 0;
+activityField.appendChild(totalCostField);
 
 // Focuses Name field by default
 nameInput.focus();
@@ -53,3 +58,49 @@ designMenu.addEventListener('change', (e) => {
         }
     }
 });
+
+activityField.addEventListener('change', (e) => {
+    const clicked = e.target;
+    const dataCost = parseInt(clicked.getAttribute('data-cost'));
+    const dayAndTime = clicked.getAttribute('data-day-and-time');
+    console.log(clicked);
+    console.log(dataCost);
+    console.log(dayAndTime);
+    if(clicked.checked == true) {
+        totalCost += dataCost;
+    } else {
+        totalCost -= dataCost;
+    }
+    totalCostField.innerHTML = 'Total: $' + totalCost;
+    console.log(totalCost);
+    for (let i = 0; i < checkboxes.length; i++) {
+        const input = checkboxes[i];
+        if (dayAndTime === input.getAttribute('data-day-and-time') && clicked !== input) {
+            input.disabled = true;
+        }
+        if (clicked.checked == false && dayAndTime === input.getAttribute('data-day-and-time')) {
+            input.disabled = false;
+        }
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
