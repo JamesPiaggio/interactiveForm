@@ -6,6 +6,7 @@ const colorMenu = document.getElementById('color');
 const activityField = document.querySelector('.activities');
 const checkboxes = document.querySelectorAll('label input');
 
+// Activity variables
 const totalCostField = document.createElement('h3');
 let totalCost = 0;
 activityField.appendChild(totalCostField);
@@ -59,30 +60,60 @@ designMenu.addEventListener('change', (e) => {
     }
 });
 
+// Activity section eventListener
 activityField.addEventListener('change', (e) => {
     const clicked = e.target;
     const dataCost = parseInt(clicked.getAttribute('data-cost'));
     const dayAndTime = clicked.getAttribute('data-day-and-time');
-    console.log(clicked);
-    console.log(dataCost);
-    console.log(dayAndTime);
+    // Adds dataCost to totalCost if clicked and subtracts when unclicked
     if(clicked.checked == true) {
         totalCost += dataCost;
     } else {
         totalCost -= dataCost;
     }
+    // Concatinates text and totalCost to show in HTML
     totalCostField.innerHTML = 'Total: $' + totalCost;
-    console.log(totalCost);
+    // Disables checkboxes with same day/time
     for (let i = 0; i < checkboxes.length; i++) {
         const input = checkboxes[i];
         if (dayAndTime === input.getAttribute('data-day-and-time') && clicked !== input) {
             input.disabled = true;
         }
+        // Reenables checkboxes when target is unchecked
         if (clicked.checked == false && dayAndTime === input.getAttribute('data-day-and-time')) {
             input.disabled = false;
         }
     }
 });
+
+// Payment variables
+const payment = document.querySelector('#payment');
+const creditCard = document.querySelector('#credit-card');
+const paypal = document.querySelector('#paypal');
+const bitcoin = document.querySelector('#bitcoin');
+
+// Hides Select Payment option and payment fields
+payment.firstElementChild.hidden = true;
+paypal.hidden = true;
+bitcoin.hidden = true;
+
+// Payment eventListener
+payment.addEventListener('change', () => {
+    if (payment.value === 'credit card') {
+        creditCard.hidden = false;
+        paypal.hidden = true;
+        bitcoin.hidden = true;
+    } else if (payment.value === 'paypal') {
+        paypal.hidden = false;
+        creditCard.hidden = true;
+        bitcoin.hidden = true;
+    } else if (payment.value = 'bitcoin') {
+        bitcoin.hidden = false;
+        creditCard.hidden = true;
+        paypal.hidden = true;
+    }
+});
+
 
 
 
