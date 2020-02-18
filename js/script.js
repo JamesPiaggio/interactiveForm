@@ -1,12 +1,13 @@
 //Global Variables
 const nameInput = document.getElementById('name');
+const selectRole = document.getElementById('title');
 const otherRole = document.getElementById('other-title');
 const designMenu = document.getElementById('design');
 const colorMenu = document.getElementById('color');
-const activityField = document.querySelector('.activities');
-const checkboxes = document.querySelectorAll('label input');
 
 // Activity variables
+const activityField = document.querySelector('.activities');
+const checkboxes = document.querySelectorAll('label input');
 const totalCostField = document.createElement('h3');
 let totalCost = 0;
 activityField.appendChild(totalCostField);
@@ -16,6 +17,15 @@ nameInput.focus();
 
 // Hides other job role text field
 otherRole.hidden = true;
+
+// Show other job role field if other is selected
+selectRole.addEventListener('change', () => {
+if (selectRole.value === 'other') {
+        otherRole.hidden = false;
+    } else {
+        otherRole.hidden = true;
+    }
+});
 
 // Shows Select theme <option>
 designMenu.firstElementChild.selected = true;
