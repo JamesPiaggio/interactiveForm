@@ -1,5 +1,7 @@
 //Global Variables
+const form = document.querySelector('form');
 const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('mail');
 const selectRole = document.getElementById('title');
 const otherRole = document.getElementById('other-title');
 const designMenu = document.getElementById('design');
@@ -20,11 +22,11 @@ otherRole.hidden = true;
 
 // Show other job role field if other is selected
 selectRole.addEventListener('change', () => {
-if (selectRole.value === 'other') {
-        otherRole.hidden = false;
-    } else {
-        otherRole.hidden = true;
-    }
+    if (selectRole.value === 'other') {
+            otherRole.hidden = false;
+        } else {
+            otherRole.hidden = true;
+        }
 });
 
 // Shows Select theme <option>
@@ -124,8 +126,51 @@ payment.addEventListener('change', () => {
     }
 });
 
+// Validation
+const validateName = () => {
+    const nameValue = nameInput.value;
+    console.log(nameValue);
+    if (nameValue.length > 0) {
+        nameInput.style.borderColor = 'rgb(111, 157, 220)';
+        return true;
+    } else {
+        nameInput.style.borderColor = 'red';
+        return false;
+    }
+}
+
+const validateEmail = () => {
+    const emailValue = emailInput.value;
+    const atIndex = emailValue.indexOf('@');
+    const dotIndex = emailValue.lastIndexOf('.');
+    if (atIndex > 1 && dotIndex > (atIndex + 1)) {
+        emailInput.style.borderColor = 'white';
+        return true;
+    } else {
+        emailInput.style.borderColor = 'red';
+        return false;
+    }
+}
 
 
+const validateActivity = () => {
+    
+}
+
+const validatePayment = () => {
+    
+}
+
+form.addEventListener('submit', (e) => {
+    if (!validateName()) {
+        e.preventDefault();
+        console.log('This validator prevented submission');
+    }
+    if (!validateEmail()) {
+        e.preventDefault();
+        console.log('This validator prevented submission');
+    }
+});
 
 
 
