@@ -40,6 +40,8 @@ themeOption.appendChild(document.createTextNode('Please select a T-shirt theme')
 colorMenu.insertBefore(themeOption, colorMenu.firstChild);
 themeOption.selected = true;
 
+// Hides <div id="colors-js-puns">
+colorMenu.parentElement.hidden = true;
 // Hides colorMenu colors
 const clearColors = () => {
     for (let i = 1; i < colorMenu.length; i++) {
@@ -52,6 +54,8 @@ clearColors();
 designMenu.addEventListener('change', (e) => {
     // If statement to only execute once
     if (themeOption.hidden == false) {
+        // Shows <div id="colors-js-puns">
+        colorMenu.parentElement.hidden = false;
         // Hides Select theme <option>
         designMenu.firstElementChild.hidden = true;
         themeOption.hidden = true;
