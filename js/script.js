@@ -158,7 +158,13 @@ const validateEmail = () => {
 
 
 const validateActivity = () => {
-    
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            return true;
+        }
+    }
+    activityField.firstElementChild.style.color = 'red';
+    return false;
 }
 
 const validatePayment = () => {
@@ -171,6 +177,10 @@ form.addEventListener('submit', (e) => {
         console.log('This validator prevented submission');
     }
     if (!validateEmail()) {
+        e.preventDefault();
+        console.log('This validator prevented submission');
+    }
+    if (!validateActivity()) {
         e.preventDefault();
         console.log('This validator prevented submission');
     }
