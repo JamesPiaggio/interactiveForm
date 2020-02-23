@@ -130,7 +130,7 @@ payment.addEventListener('change', () => {
     }
 });
 
-// Validation
+// Validation functions
 const validateName = () => {
     const nameValue = nameInput.value;
     console.log(nameValue);
@@ -148,7 +148,7 @@ const validateEmail = () => {
     const atIndex = emailValue.indexOf('@');
     const dotIndex = emailValue.lastIndexOf('.');
     if (atIndex > 1 && dotIndex > (atIndex + 1)) {
-        emailInput.style.borderColor = 'white';
+        emailInput.style.borderColor = 'rgb(111, 157, 220)';
         return true;
     } else {
         emailInput.style.borderColor = 'red';
@@ -160,6 +160,7 @@ const validateEmail = () => {
 const validateActivity = () => {
     for (let i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
+            activityField.firstElementChild.style.color = 'rgba(6, 49, 68, 0.9)';
             return true;
         }
     }
@@ -167,8 +168,46 @@ const validateActivity = () => {
     return false;
 }
 
+const validateCCNum = () => {
+    const ccNum = document.getElementById('cc-num');
+    const ccNumValue = ccNum.value;
+    if (ccNumValue.length >= 13 && ccNumValue.length <= 16) {
+        ccNum.style.borderColor = 'rgb(111, 157, 220)';
+        return true;
+    } else {
+        ccNum.style.borderColor = 'red';
+        return false;
+    }
+}
+        
+const validateZip = () => {
+    const zipcode = document.getElementById('zip');
+    const zipcodeValue = zipcode.value;
+    if (zipcodeValue.length === 5) {
+        zipcode.style.borderColor = 'rgb(111, 157, 220)';
+        return true;
+    } else {
+        zipcode.style.borderColor = 'red';
+        return false;
+    }
+}
+
+const validateCCV = () => {
+    const ccv = document.getElementById('cvv')
+    const ccvValue = ccv.value;
+    if (ccvValue.length === 3) {
+        ccv.style.borderColor = 'rgb(111, 157, 220)';
+        return true;
+    } else {
+        ccv.style.borderColor = 'red';
+        return false;
+    }
+}
+
 const validatePayment = () => {
-    
+    validateCCNum();
+    validateZip();
+    validateCCV();
 }
 
 form.addEventListener('submit', (e) => {
@@ -181,6 +220,10 @@ form.addEventListener('submit', (e) => {
         console.log('This validator prevented submission');
     }
     if (!validateActivity()) {
+        e.preventDefault();
+        console.log('This validator prevented submission');
+    }
+    if (!validatePayment()) {
         e.preventDefault();
         console.log('This validator prevented submission');
     }
