@@ -269,12 +269,7 @@ form.addEventListener('submit', (e) => {
 });
 
 // Event Listener to check email input in real time
-form.addEventListener('keyup', (e) => {
-    if (!validateEmail()) {
-        e.preventDefault();
-        console.log('This validator prevented submission');
-    }
-});
+emailInput.addEventListener('keyup', validateEmail);
 
 
 
