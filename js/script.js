@@ -107,11 +107,13 @@ const payment = document.querySelector('#payment');
 const creditCard = document.querySelector('#credit-card');
 const paypal = document.querySelector('#paypal');
 const bitcoin = document.querySelector('#bitcoin');
-const ccNumMessage = document.createElement('p');
 
+// Error message variables
+const ccNumMessage = document.createElement('p');
 
 // Hides Select Payment option and payment fields
 payment.firstElementChild.hidden = true;
+payment[1].selected = true;
 paypal.hidden = true;
 bitcoin.hidden = true;
 
