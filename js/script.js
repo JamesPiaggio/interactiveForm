@@ -107,6 +107,8 @@ const payment = document.querySelector('#payment');
 const creditCard = document.querySelector('#credit-card');
 const paypal = document.querySelector('#paypal');
 const bitcoin = document.querySelector('#bitcoin');
+const ccNumMessage = document.createElement('p');
+
 
 // Hides Select Payment option and payment fields
 payment.firstElementChild.hidden = true;
@@ -115,6 +117,7 @@ bitcoin.hidden = true;
 
 // Payment eventListener
 payment.addEventListener('change', () => {
+    // Shows selected, hides the other two
     if (payment.value === 'credit card') {
         creditCard.hidden = false;
         paypal.hidden = true;
@@ -132,9 +135,10 @@ payment.addEventListener('change', () => {
 
 // Validation functions
 const validateName = () => {
+    // Stores value of input
     const nameValue = nameInput.value;
-    console.log(nameValue);
-    if (nameValue.length > 0) {
+    // If nameValue has more than 1 character
+    if (nameValue.length > 1) {
         nameInput.style.borderColor = 'rgb(111, 157, 220)';
         return true;
     } else {
@@ -145,8 +149,12 @@ const validateName = () => {
 
 const validateEmail = () => {
     const emailValue = emailInput.value;
+    // Grabs index of '@'
     const atIndex = emailValue.indexOf('@');
+    // Grabs the index of the last '.'
     const dotIndex = emailValue.lastIndexOf('.');
+    // If '@' is after 1 character 
+    // and '.' is at least 1 character after '@'
     if (atIndex > 1 && dotIndex > (atIndex + 1)) {
         emailInput.style.borderColor = 'rgb(111, 157, 220)';
         return true;
@@ -158,31 +166,56 @@ const validateEmail = () => {
 
 
 const validateActivity = () => {
+    // Loop to check checkboxes
     for (let i = 0; i < checkboxes.length; i++) {
         if (checkboxes[i].checked) {
             activityField.firstElementChild.style.color = 'rgba(6, 49, 68, 0.9)';
             return true;
         }
     }
+    // Executes if all checkboxes are unchecked
     activityField.firstElementChild.style.color = 'red';
     return false;
 }
 
 const validateCCNum = () => {
+    // Credit card variables
     const ccNum = document.getElementById('cc-num');
     const ccNumValue = ccNum.value;
+    // Hides error message
+    ccNumMessage.hidden = true;
+    // Appends error message to div of ccNum
+    ccNum.parentElement.appendChild(ccNumMessage);
+    // If number is between 13 and 16
     if (ccNumValue.length >= 13 && ccNumValue.length <= 16) {
         ccNum.style.borderColor = 'rgb(111, 157, 220)';
         return true;
-    } else {
+      // Else if number is between 1 and 12
+    } else if (ccNumValue.length >= 1 && ccNumValue.length <= 12) {
+        // Adds text specific for this condition
+        ccNumMessage.innerHTML = 'Credit card number must be between 13 and 16 numbers';
+        // Shows error message
+        ccNumMessage.hidden = false;
+        ccNumMessage.style.color = 'red';
+        ccNum.style.borderColor = 'red';
+        return false;
+      // Else if the input is empty
+    } else if (ccNumValue === '') {
+        // Adds text specific for this condition
+        ccNumMessage.innerHTML = 'Please enter credit card number';
+        // Shows error message
+        ccNumMessage.hidden = false;
+        ccNumMessage.style.color = 'red';
         ccNum.style.borderColor = 'red';
         return false;
     }
 }
         
 const validateZip = () => {
+    // Zipcode variables
     const zipcode = document.getElementById('zip');
     const zipcodeValue = zipcode.value;
+    // If zipcodeValue is 5 characters
     if (zipcodeValue.length === 5) {
         zipcode.style.borderColor = 'rgb(111, 157, 220)';
         return true;
@@ -193,8 +226,10 @@ const validateZip = () => {
 }
 
 const validateCCV = () => {
+    // Ccv variables
     const ccv = document.getElementById('cvv')
     const ccvValue = ccv.value;
+    // If ccvValue is 3 characters
     if (ccvValue.length === 3) {
         ccv.style.borderColor = 'rgb(111, 157, 220)';
         return true;
@@ -204,12 +239,16 @@ const validateCCV = () => {
     }
 }
 
+// Functions to validate all payment inputs
 const validatePayment = () => {
-    validateCCNum();
-    validateZip();
-    validateCCV();
+    if (payment.value === 'credit card') {
+        validateCCNum();
+        validateZip();
+        validateCCV();
+    }
 }
 
+// Event Listener for validations
 form.addEventListener('submit', (e) => {
     if (!validateName()) {
         e.preventDefault();
@@ -224,6 +263,14 @@ form.addEventListener('submit', (e) => {
         console.log('This validator prevented submission');
     }
     if (!validatePayment()) {
+        e.preventDefault();
+        console.log('This validator prevented submission');
+    }
+});
+
+// Event Listener to check email input in real time
+form.addEventListener('keyup', (e) => {
+    if (!validateEmail()) {
         e.preventDefault();
         console.log('This validator prevented submission');
     }
