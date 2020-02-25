@@ -2,6 +2,8 @@
 const form = document.querySelector('form');
 const nameInput = document.getElementById('name');
 const emailInput = document.getElementById('mail');
+const basicInfo = emailInput.parentElement;
+const basicInfoLabels = basicInfo.querySelectorAll('label');
 const selectRole = document.getElementById('title');
 const otherRole = document.getElementById('other-title');
 const designMenu = document.getElementById('design');
@@ -110,8 +112,10 @@ const bitcoin = document.querySelector('#bitcoin');
 
 // Error message variables
 const ccNumMessage = document.createElement('p');
+const emailMessage = document.createElement('p');
 // Hides error message
 ccNumMessage.hidden = true;
+emailMessage.hidden = true;
 
 // Hides Select Payment option and payment fields
 payment.firstElementChild.hidden = true;
@@ -160,9 +164,14 @@ const validateEmail = () => {
     // If '@' is after 1 character 
     // and '.' is at least 1 character after '@'
     if (atIndex > 1 && dotIndex > (atIndex + 1)) {
+        emailMessage.hidden = true;
         emailInput.style.borderColor = 'rgb(111, 157, 220)';
         return true;
     } else {
+        emailMessage.innerHTML = 'Please format email (example@email.com)';
+        basicInfo.insertBefore(emailMessage, basicInfoLabels[2]);
+        emailMessage.hidden = false;
+        emailMessage.style.color = 'red';
         emailInput.style.borderColor = 'red';
         return false;
     }
