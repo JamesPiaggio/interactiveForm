@@ -110,6 +110,8 @@ const bitcoin = document.querySelector('#bitcoin');
 
 // Error message variables
 const ccNumMessage = document.createElement('p');
+// Hides error message
+ccNumMessage.hidden = true;
 
 // Hides Select Payment option and payment fields
 payment.firstElementChild.hidden = true;
@@ -184,18 +186,17 @@ const validateCCNum = () => {
     // Credit card variables
     const ccNum = document.getElementById('cc-num');
     const ccNumValue = ccNum.value;
-    // Hides error message
-    ccNumMessage.hidden = true;
-    // Appends error message to div of ccNum
-    ccNum.parentElement.appendChild(ccNumMessage);
     // If number is between 13 and 16
     if (ccNumValue.length >= 13 && ccNumValue.length <= 16) {
-        ccNum.style.borderColor = 'rgb(111, 157, 220)';
+        ccNumMessage.hidden = true;
+        ccNum.style.borderColor = 'green';
         return true;
       // Else if number is between 1 and 12
     } else if (ccNumValue.length >= 1 && ccNumValue.length <= 12) {
         // Adds text specific for this condition
         ccNumMessage.innerHTML = 'Credit card number must be between 13 and 16 numbers';
+        // Appends error message to div of ccNum
+        ccNum.parentElement.appendChild(ccNumMessage);
         // Shows error message
         ccNumMessage.hidden = false;
         ccNumMessage.style.color = 'red';
@@ -205,6 +206,8 @@ const validateCCNum = () => {
     } else if (ccNumValue === '') {
         // Adds text specific for this condition
         ccNumMessage.innerHTML = 'Please enter credit card number';
+        // Appends error message to div of ccNum
+        ccNum.parentElement.appendChild(ccNumMessage);
         // Shows error message
         ccNumMessage.hidden = false;
         ccNumMessage.style.color = 'red';
@@ -219,7 +222,7 @@ const validateZip = () => {
     const zipcodeValue = zipcode.value;
     // If zipcodeValue is 5 characters
     if (zipcodeValue.length === 5) {
-        zipcode.style.borderColor = 'rgb(111, 157, 220)';
+        zipcode.style.borderColor = 'green';
         return true;
     } else {
         zipcode.style.borderColor = 'red';
@@ -233,7 +236,7 @@ const validateCCV = () => {
     const ccvValue = ccv.value;
     // If ccvValue is 3 characters
     if (ccvValue.length === 3) {
-        ccv.style.borderColor = 'rgb(111, 157, 220)';
+        ccv.style.borderColor = 'green';
         return true;
     } else {
         ccv.style.borderColor = 'red';
@@ -243,11 +246,11 @@ const validateCCV = () => {
 
 // Functions to validate all payment inputs
 const validatePayment = () => {
-    if (payment.value === 'credit card') {
-        validateCCNum();
-        validateZip();
-        validateCCV();
-    }
+        if (validateCCNum() === true && validateZip() === true && validateCCV() === true) {
+            return true;
+        } else {
+            return false;
+        }
 }
 
 // Event Listener for validations
@@ -264,9 +267,11 @@ form.addEventListener('submit', (e) => {
         e.preventDefault();
         console.log('This validator prevented submission');
     }
-    if (!validatePayment()) {
-        e.preventDefault();
-        console.log('This validator prevented submission');
+    if (payment.value === 'credit card') {
+        if (!validatePayment()) {
+            e.preventDefault();
+            console.log('This validator prevented submission');
+        }
     }
 });
 
