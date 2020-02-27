@@ -198,7 +198,7 @@ const validateCCNum = () => {
     // If number is between 13 and 16
     if (ccNumValue.length >= 13 && ccNumValue.length <= 16) {
         ccNumMessage.hidden = true;
-        ccNum.style.borderColor = 'green';
+        ccNum.style.borderColor = 'rgb(111, 157, 220)';
         return true;
       // Else if number is between 1 and 12
     } else if (ccNumValue.length >= 1 && ccNumValue.length <= 12) {
@@ -231,7 +231,7 @@ const validateZip = () => {
     const zipcodeValue = zipcode.value;
     // If zipcodeValue is 5 characters
     if (zipcodeValue.length === 5) {
-        zipcode.style.borderColor = 'green';
+        zipcode.style.borderColor = 'rgb(111, 157, 220)';
         return true;
     } else {
         zipcode.style.borderColor = 'red';
@@ -245,7 +245,7 @@ const validateCCV = () => {
     const ccvValue = ccv.value;
     // If ccvValue is 3 characters
     if (ccvValue.length === 3) {
-        ccv.style.borderColor = 'green';
+        ccv.style.borderColor = 'rgb(111, 157, 220)';
         return true;
     } else {
         ccv.style.borderColor = 'red';
@@ -255,6 +255,9 @@ const validateCCV = () => {
 
 // Functions to validate all payment inputs
 const validatePayment = () => {
+        validateCCNum();
+        validateZip();
+        validateCCV();
         if (validateCCNum() === true && validateZip() === true && validateCCV() === true) {
             return true;
         } else {
