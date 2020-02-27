@@ -191,30 +191,45 @@ const validateActivity = () => {
     return false;
 }
 
+// Regex for payment validation
+const regex = /^[0-9]+$/;
+
 const validateCCNum = () => {
     // Credit card variables
     const ccNum = document.getElementById('cc-num');
     const ccNumValue = ccNum.value;
-    // If number is between 13 and 16
-    if (ccNumValue.length >= 13 && ccNumValue.length <= 16) {
-        ccNumMessage.hidden = true;
-        ccNum.style.borderColor = 'rgb(111, 157, 220)';
-        return true;
-      // Else if number is between 1 and 12
-    } else if (ccNumValue.length >= 1 && ccNumValue.length <= 12) {
+    if (regex.test(ccNumValue)) {
+        // If number is between 13 and 16
+        if (ccNumValue.length >= 13 && ccNumValue.length <= 16) {
+            ccNumMessage.hidden = true;
+            ccNum.style.borderColor = 'rgb(111, 157, 220)';
+            return true;
+          // Else if number is between 1 and 12
+        } else if (ccNumValue.length >= 1 && ccNumValue.length <= 12) {
+            // Adds text specific for this condition
+            ccNumMessage.innerHTML = 'Credit card number must be between 13 and 16 numbers';
+            // Appends error message to div of ccNum
+            ccNum.parentElement.appendChild(ccNumMessage);
+            // Shows error message
+            ccNumMessage.hidden = false;
+            ccNumMessage.style.color = 'red';
+            ccNum.style.borderColor = 'red';
+            return false;
+          // Else if the input is empty
+        } else if (ccNumValue === '') {
+            // Adds text specific for this condition
+            ccNumMessage.innerHTML = 'Please enter credit card number';
+            // Appends error message to div of ccNum
+            ccNum.parentElement.appendChild(ccNumMessage);
+            // Shows error message
+            ccNumMessage.hidden = false;
+            ccNumMessage.style.color = 'red';
+            ccNum.style.borderColor = 'red';
+            return false;
+        }
+    } else {
         // Adds text specific for this condition
-        ccNumMessage.innerHTML = 'Credit card number must be between 13 and 16 numbers';
-        // Appends error message to div of ccNum
-        ccNum.parentElement.appendChild(ccNumMessage);
-        // Shows error message
-        ccNumMessage.hidden = false;
-        ccNumMessage.style.color = 'red';
-        ccNum.style.borderColor = 'red';
-        return false;
-      // Else if the input is empty
-    } else if (ccNumValue === '') {
-        // Adds text specific for this condition
-        ccNumMessage.innerHTML = 'Please enter credit card number';
+        ccNumMessage.innerHTML = 'Please enter only numbers';
         // Appends error message to div of ccNum
         ccNum.parentElement.appendChild(ccNumMessage);
         // Shows error message
@@ -229,10 +244,15 @@ const validateZip = () => {
     // Zipcode variables
     const zipcode = document.getElementById('zip');
     const zipcodeValue = zipcode.value;
-    // If zipcodeValue is 5 characters
-    if (zipcodeValue.length === 5) {
-        zipcode.style.borderColor = 'rgb(111, 157, 220)';
-        return true;
+    if (regex.test(zipcodeValue)) {
+        // If zipcodeValue is 5 characters
+        if (zipcodeValue.length === 5) {
+            zipcode.style.borderColor = 'rgb(111, 157, 220)';
+            return true;
+        } else {
+            zipcode.style.borderColor = 'red';
+            return false;
+        }
     } else {
         zipcode.style.borderColor = 'red';
         return false;
@@ -243,10 +263,15 @@ const validateCCV = () => {
     // Ccv variables
     const ccv = document.getElementById('cvv')
     const ccvValue = ccv.value;
-    // If ccvValue is 3 characters
-    if (ccvValue.length === 3) {
-        ccv.style.borderColor = 'rgb(111, 157, 220)';
-        return true;
+    if (regex.test(ccvValue)) {
+        // If ccvValue is 3 characters
+        if (ccvValue.length === 3) {
+            ccv.style.borderColor = 'rgb(111, 157, 220)';
+            return true;
+        } else {
+            ccv.style.borderColor = 'red';
+            return false;
+        }
     } else {
         ccv.style.borderColor = 'red';
         return false;
