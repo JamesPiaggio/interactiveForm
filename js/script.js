@@ -96,10 +96,12 @@ activityField.addEventListener('change', (e) => {
         const input = checkboxes[i];
         if (dayAndTime === input.getAttribute('data-day-and-time') && clicked !== input) {
             input.disabled = true;
+            input.parentElement.style.textDecoration = 'line-through';
         }
         // Reenables checkboxes when target is unchecked
         if (clicked.checked == false && dayAndTime === input.getAttribute('data-day-and-time')) {
             input.disabled = false;
+            input.parentElement.style.textDecoration = 'none';
         }
     }
 });
